@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>JSDefender Deobfuscator Web</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    textarea { width: 100%; height: 200px; }
+    .container { max-width: 800px; margin: auto; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>JSDefender Deobfuscator Web</h1>
+    <form action="/deobfuscate" method="post" enctype="multipart/form-data">
+      <label for="code">Paste Obfuscated Code:</label><br>
+      <textarea id="code" name="code" rows="10" cols="80"></textarea><br>
+      <label for="file">Or Upload File:</label><br>
+      <input type="file" id="file" name="file" accept=".js"><br>
+      <label><input type="checkbox" name="verbose"> Verbose Mode</label><br>
+      <button type="submit">Deobfuscate</button>
+    </form>
+  </div>
+</body>
+</html>
