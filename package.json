@@ -4,6 +4,8 @@
   "description": "A tool for deobfuscating JavaScript code protected by JSDefender to make it easier to analyse",
   "main": "deobfuscator.js",
   "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -21,7 +23,7 @@
     "debugging",
     "tool"
   ],
-  "author": "Yvain Ramora",
+  "author": "Yvainix",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/Yvainix/JSDefender-Deobfuscator/issues"
@@ -32,6 +34,13 @@
     "@babel/preset-env": "^7.26.0",
     "babel-plugin-transform-member-expression-literals": "^6.9.4",
     "cli-highlight": "^2.1.11",
-    "minimist": "^1.2.8"
+    "minimist": "^1.2.8",
+    "express": "^4.21.1",
+    "body-parser": "^1.20.3",
+    "multer": "^1.4.5-lts.1",
+    "vm2": "^3.9.19"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.7"
   }
 }
