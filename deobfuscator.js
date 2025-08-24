@@ -30,6 +30,8 @@ const chalk = require('chalk');
 const repl = require('repl');
 const os = require('os');
 const fs = require('fs');
+const { NodeVM } = require('vm2'); // For sandboxing
+const minimist = require('minimist');
 
 const help = `
 Usage:
