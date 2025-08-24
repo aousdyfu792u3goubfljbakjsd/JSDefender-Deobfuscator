@@ -469,6 +469,79 @@ async function beautify(data) {
         return data;
     }
 }
+function deobfuscateCode(inputCode, verbose = false) {
+  // Initialize sandbox for safe execution
+  const vm = new NodeVM({
+    console: 'inherit',
+    sandbox: { console }, // Allow console for logging
+    require: { external: false }, // Disable external requires
+  });
+
+  try {
+    // Step 1: Parse and transform code with Babel (based on existing dependencies)
+    const transformed = babel.transformSync(inputCode, {
+      presets: ['@babel/preset-env'],
+      plugins: ['babel-plugin-transform-member-expression-literals'],
+    }).code;
+
+    // Step 2: Handle JSDefender-specific obfuscation
+    // - Duplicate functions to avoid tampering detection
+    // - Decrypt strings (e.g., using XY6k logic)
+    // - Simplify expressions
+    // Example logic (adapt from your actual deobfuscator.js):
+    let deobfuscated = transformed;
+
+    // Simulate decryption (replace with actual logic)
+    // From README: Detects encrypted arrays, evaluates decoders like Ppq0
+    const sandboxedCode = `
+      const myConsole = console.log.bind(console);
+      ${deobfuscated}
+    `;
+    deobfuscated = vm.run(sandboxedCode); // Run in sandbox
+
+    // Step 3: Beautify output
+    const beautified = highlight(deobfuscated, { language: 'javascript', ignoreIllegals: true });
+
+    // Log verbose output if requested
+    if (verbose) {
+      console.log('Deobfuscation steps:', { inputLength: inputCode.length, transformed, beautified });
+    }
+
+    return beautified;
+  } catch (error) {
+    if (verbose) console.error('Error during deobfuscation:', error);
+    throw new Error('Deobfuscation failed: ' + error.message);
+  }
+}
+
+// CLI handling (preserve original functionality)
+if (require.main === module) {
+  const argv = minimist(process.argv.slice(2));
+  const inputFile = argv.i;
+  const outputFile = argv.o;
+  const verbose = argv.v || false;
+
+  if (!inputFile) {
+    console.error('Please provide an input file with -i');
+    process.exit(1);
+  }
+
+  const inputCode = fs.readFileSync(inputFile, 'utf8');
+  try {
+    const result = deobfuscateCode(inputCode, verbose);
+    if (outputFile) {
+      fs.writeFileSync(outputFile, result);
+      console.log(`Deobfuscated code written to ${outputFile}`);
+    } else {
+      console.log(result);
+    }
+  } catch (error) {
+    console.error(error.message);
+    process.exit(1);
+  }
+}
+
+module.exports = { deobfuscateCode };
 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         `${/*
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                \`*-.                    
